@@ -44,4 +44,4 @@ module "cluster" {
   aws_region = module.defaults.aws_region
   subnet_ids = module.vpc.cluster_subnets
   vpc_id     = module.vpc.vpc_id
-} 
+}

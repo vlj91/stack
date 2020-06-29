@@ -21,9 +21,13 @@ variable "tags" {
 }
 
 resource "aws_route53_zone" "internal" {
-  name    = "${var.stack_name}.${var.dns_name_suffix_internal}"
-  vpc_id  = var.vpc_id
-  comment = "${var.stack_name} internal zone"
+  name          = "${var.stack_name}.${var.dns_name_suffix_internal}"
+  comment       = "${var.stack_name} internal zone"
+  force_destroy = true
+
+  vpc {
+    vpc_id = var.vpc_id
+  }
 }
 
 output "internal_zone_name" {
