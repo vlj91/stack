@@ -29,6 +29,14 @@ module "dns" {
   tags       = var.tags
 }
 
+module "dhcp" {
+  source = "./dhcp"
+
+  dns_zone_name = module.dns.internal_zone_name
+  name_servers  = module.dns.internal_zone_name_servers
+  vpc_id        = module.vpc.vpc_id
+}
+
 module "cluster" {
   source = "./cluster"
 
@@ -36,4 +44,4 @@ module "cluster" {
   aws_region = module.defaults.aws_region
   subnet_ids = module.vpc.cluster_subnets
   vpc_id     = module.vpc.vpc_id
-}
+} 
