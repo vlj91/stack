@@ -28,3 +28,12 @@ module "dns" {
   vpc_id     = module.vpc.vpc_id
   tags       = var.tags
 }
+
+module "cluster" {
+  source = "./cluster"
+
+  stack_name = var.name
+  aws_region = module.defaults.aws_region
+  subnet_ids = module.vpc.cluster_subnets
+  vpc_id     = module.vpc.vpc_id
+}
