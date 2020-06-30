@@ -140,6 +140,10 @@ resource "aws_eks_cluster" "this" {
 }
 
 ###############################################################################
+output "name" {
+  value = aws_eks_cluster.this.name
+}
+
 output "status" {
   value = aws_eks_cluster.this.status
 }
