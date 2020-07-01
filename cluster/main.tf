@@ -139,6 +139,16 @@ resource "aws_eks_cluster" "this" {
   ]
 }
 
+data "external" "thumbprint" {
+  program = ["bash", "${path.module}/get_thumbprint.sh", var.aws_region]
+}
+
+resource "aws_iam_openid_connect_provider" "this" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.external.thumbprint.result.thumbprint]
+  url             = aws_eks_cluster.this.identity.0.oidc.0.issuer
+}
+
 ###############################################################################
 output "name" {
   value = aws_eks_cluster.this.name
@@ -154,6 +164,18 @@ output "cluster_version" {
 
 output "platform_version" {
   value = aws_eks_cluster.this.platform_version
+}
+
+output "cluster_endpoint" {
+  value = aws_eks_cluster.this.endpoint
+}
+
+output "cluster_certificate" {
+  value = aws_eks_cluster.this.certificate_authority.0.data
+}
+
+output "providers" {
+  value = file("${path.module}/provider.tf.tpl")
 }
 
 output "kubeconfig" {

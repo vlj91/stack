@@ -1,3 +1,4 @@
+# ${cluster_name}
 apiVersion: v1
 clusters:
 - cluster:
